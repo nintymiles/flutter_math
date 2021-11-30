@@ -556,6 +556,12 @@ class InternalSelectableMathState extends State<InternalSelectableMath>
 
   @override
   void bringIntoView(TextPosition position) {}
+
+  @override
+  void userUpdateTextEditingValue(TextEditingValue value, SelectionChangedCause cause) {
+    noSuchMethod(Invocation invocationMsg) => "got ${invocationMsg.memberName} "
+        "with arguments ${invocationMsg.positionalArguments}";
+  }
 }
 
 class SelectionStyle {
