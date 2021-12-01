@@ -96,7 +96,7 @@ class DemoPage extends StatelessWidget {
                                 // Must use a GlobalKey, otherwise it will stack
                                 key: GlobalKey(debugLabel: 'texView'),
                                 renderingEngine:
-                                    const TeXViewRenderingEngine.katex(),
+                                    const TeXViewRenderingEngine.mathjax(),
                                 child: TeXViewDocument(
                                   '\$\$${controller.value.text}\$\$',
                                   id: '0',
