@@ -160,6 +160,7 @@ class SelectableMath extends StatelessWidget {
   /// If not set, select all and copy will be enabled by default.
   final ToolbarOptions toolbarOptions;
 
+  //从TeX string开始构建Tex View
   /// SelectableMath builder using a TeX string
   ///
   /// {@macro flutter_math.widgets.math.tex_builder}
