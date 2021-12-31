@@ -199,7 +199,7 @@ class SelectableMath extends StatelessWidget {
       parseError = e;
     } on Object catch (e) {
       parseError = ParseException('Unsanitized parse exception detected: $e.'
-          'Please report this error with correponding input.');
+          'Please report this error with corresponding input.');
     }
     return SelectableMath(
       key: key,

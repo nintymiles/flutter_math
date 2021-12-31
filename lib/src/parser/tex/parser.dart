@@ -65,6 +65,7 @@ class TexParser {
   final MacroExpander macroExpander;
   Token? nextToken;
 
+  //parse函数将tex解析为本地语法树节点集合
   /// Get parse result
   EquationRowNode parse() {
     if (!this.settings.globalGroup) {

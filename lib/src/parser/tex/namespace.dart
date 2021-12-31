@@ -23,6 +23,7 @@
 
 import 'parse_error.dart';
 
+//命名空间包含两类设置，内置和当前设置
 class Namespace<T> {
   Namespace(this.builtins, Map<String, T> current)
       : current = Map.from(current);

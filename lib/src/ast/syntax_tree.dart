@@ -198,6 +198,10 @@ class SyntaxNode {
   }
 }
 
+//Roslyn是开源.net编译器项目名称
+//The Roslyn .NET compiler provides C# and Visual Basic languages with rich code analysis APIs.
+//[Roslyn red-green trees source](https://github.com/dotnet/roslyn/blob/main/src/Compilers/Core/Portable/Syntax/SyntaxNode.cs)
+//GreenNode为上下文无关节点，意味着其具备自描述特征，bottom-up
 /// Node of Roslyn's Green Tree. Base class of any math nodes.
 ///
 /// [Description of Roslyn's Red-Green Tree](https://docs.microsoft.com/en-us/archive/blogs/ericlippert/persistence-facades-and-roslyns-red-green-trees).
@@ -279,7 +283,7 @@ abstract class GreenNode {
   /// [editingWidth] stores intrinsic width in the editing mode.
   ///
   /// Please calculate (and cache) the width based on [children]'s widths.
-  /// Note that it should strictly simulate the movement of the curosr.
+  /// Note that it should strictly simulate the movement of the cursor.
   int get editingWidth;
 
   /// Number of cursor positions that can be captured within this node.
@@ -296,7 +300,7 @@ abstract class GreenNode {
   ///
   /// Used only for editing functionalities.
   ///
-  /// This method stores the layout strucuture for cursor in the editing mode.
+  /// This method stores the layout structure for cursor in the editing mode.
   /// You should return positions of children assume this current node is placed
   /// at the starting position. It should be no shorter than [children]. It's
   /// entirely optional to add extra hinting elements.
@@ -317,6 +321,7 @@ abstract class GreenNode {
       };
 }
 
+// GreenNode子类的容器抽象类
 /// [GreenNode] that can have children
 abstract class ParentableNode<T extends GreenNode?> extends GreenNode {
   @override
@@ -338,6 +343,7 @@ abstract class ParentableNode<T extends GreenNode?> extends GreenNode {
   ParentableNode<T> updateChildren(covariant List<T?> newChildren);
 }
 
+// mixin的泛型额外限制继承的父类，是为了保持和扩展的类的泛型规格的一致性
 mixin PositionDependentMixin<T extends GreenNode> on ParentableNode<T> {
   var range = const TextRange(start: 0, end: -1);
 
@@ -384,7 +390,7 @@ abstract class SlotableNode<T extends EquationRowNode?>
 }
 
 /// [TransparentNode] refers to those node who have zero rendering content
-/// iteself, and are expected to be unwrapped for its children during rendering.
+/// itself, and are expected to be unwrapped for its children during rendering.
 ///
 /// [TransparentNode]s are only allowed to appear directly under
 /// [EquationRowNode]s and other [TransparentNode]s. And those nodes have to
@@ -429,6 +435,7 @@ abstract class TransparentNode extends ParentableNode<GreenNode>
   late final AtomType rightType = children.last.rightType;
 }
 
+/// 公式行节点（以等式行EquationRow为名称），包含一系列可自由编辑的节点
 /// A row of unrelated [GreenNode]s.
 ///
 /// [EquationRowNode] provides cursor-reachability and editability. It
@@ -710,6 +717,8 @@ mixin _ClipChildrenMixin on ParentableNode<GreenNode> {
         tail = child;
       }
     }
+
+    //List字面义生成时的语法支持，保证数据生成的灵活性
     return this.updateChildren(<GreenNode>[
       if (head != null) head,
       for (var i = childIndex1Ceil; i < childIndex2Floor; i++) children[i],
@@ -790,9 +799,11 @@ abstract class LeafNode extends GreenNode {
   int get editingWidth => 1;
 }
 
+// Donald Knuth TeXBook P158
+// Atom type可以理解为数学公式所包含元素的类型
 /// Type of atoms. See TeXBook Chap.17
 ///
-/// These following types will be determined by their repective [GreenNode] type
+/// These following types will be determined by their respective [GreenNode] type
 /// - over
 /// - under
 /// - acc
